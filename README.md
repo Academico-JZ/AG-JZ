@@ -1,4 +1,4 @@
-# AG-Unified
+# AG-JZ
 
 🚀 **CLI global para unificar múltiplos kits Antigravity**
 
@@ -6,7 +6,7 @@
 
 Este pacote NPM permite sincronizar múltiplos repositórios de kits (como `gemini-superpowers-antigravity`, `antigravity-kit`, etc.) em um único diretório global do Antigravity.
 
-**Diferente de outros instaladores**, o `ag-unified`:
+**Diferente de outros instaladores**, o `ag-jz`:
 - ✅ **Mescla** múltiplos repos (não sobrescreve)
 - ✅ Instala no **diretório global** (`~/.gemini/antigravity/.agent`)
 - ✅ Cria **symlinks** para workspaces locais
@@ -15,7 +15,7 @@ Este pacote NPM permite sincronizar múltiplos repositórios de kits (como `gemi
 ## Instalação
 
 ```bash
-npm install -g @academico-jz/ag-unified
+npm install -g @academico-jz/ag-jz
 ```
 
 ## Uso
@@ -23,25 +23,25 @@ npm install -g @academico-jz/ag-unified
 ### Sincronizar um repositório
 
 ```bash
-ag-unified sync github:anthonylee991/gemini-superpowers-antigravity
+ag-jz sync github:anthonylee991/gemini-superpowers-antigravity
 ```
 
 ### Sincronizar todos os kits predefinidos
 
 ```bash
-ag-unified sync --all
+ag-jz sync --all
 ```
 
 ### Criar link simbólico no workspace atual
 
 ```bash
-ag-unified link
+ag-jz link
 ```
 
 ### Ver status dos kits instalados
 
 ```bash
-ag-unified status
+ag-jz status
 ```
 
 ## Arquitetura
