@@ -26,50 +26,50 @@ npm install
 npm link
 ```
 
-Agora o comando `ag-unified` estará disponível globalmente no seu sistema.
+Agora o comando `ag-jz` estará disponível globalmente no seu sistema.
 
 ## Testando os Comandos
 
 ### Ver ajuda
 
 ```bash
-ag-unified --help
+ag-jz --help
 ```
 
 ### Sincronizar um kit específico
 
 ```bash
-ag-unified sync github:anthonylee991/gemini-superpowers-antigravity
+ag-jz sync github:anthonylee991/gemini-superpowers-antigravity
 ```
 
 ### Sincronizar todos os kits padrão
 
 ```bash
-ag-unified sync --all
+ag-jz sync --all
 ```
 
 ### Ver status dos kits instalados
 
 ```bash
-ag-unified status
+ag-jz status
 ```
 
 ### Criar link simbólico no workspace atual
 
 ```bash
 cd /caminho/para/seu/projeto
-ag-unified link
+ag-jz link
 ```
 
 ### Modo dry-run (ver o que seria feito sem executar)
 
 ```bash
-ag-unified sync --all --dry-run
+ag-jz sync --all --dry-run
 ```
 
 ## Estrutura Criada
 
-Após executar `ag-unified sync --all`, a seguinte estrutura será criada:
+Após executar `ag-jz sync --all`, a seguinte estrutura será criada:
 
 ```
 ~/.gemini/antigravity/.agent/
@@ -91,7 +91,7 @@ Após executar `ag-unified sync --all`, a seguinte estrutura será criada:
 Para remover o link global:
 
 ```bash
-npm unlink -g @academico-jz/ag-unified
+npm unlink -g @academico-jz/ag-jz
 ```
 
 ## Publicação no NPM (futuro)
