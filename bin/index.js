@@ -20,7 +20,7 @@ const pkg = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'package.json'
 // ============================================================================
 
 const AGENT_FOLDER = '.agent';
-const TEMP_FOLDER = '.temp_ag_unified';
+const TEMP_FOLDER = '.temp_ag_jz';
 const REGISTRY_FILE = '.sync-registry.json';
 
 // Default kits to sync when using --all
@@ -51,7 +51,7 @@ const showBanner = (quiet = false) => {
     if (quiet) return;
     console.log(chalk.blueBright(`
     ╔══════════════════════════════════════╗
-    ║        AG-UNIFIED CLI                ║
+    ║        AG-JZ CLI                     ║
     ║   Multi-Kit Antigravity Manager      ║
     ╚══════════════════════════════════════╝
     `));
@@ -209,7 +209,7 @@ const syncCommand = async (repoSource, options) => {
 
     if (!syncAll && !repoSource) {
         console.log(chalk.red('Error: Please specify a repository or use --all flag'));
-        console.log(chalk.yellow(`Example: ${chalk.cyan('ag-unified sync github:user/repo')}`));
+        console.log(chalk.yellow(`Example: ${chalk.cyan('ag-jz sync github:user/repo')}`));
         process.exit(1);
     }
 
@@ -290,7 +290,7 @@ const linkCommand = async (options) => {
     // Check if global .agent exists
     if (!fs.existsSync(globalDir)) {
         console.log(chalk.red(`Error: Global .agent directory not found at: ${globalDir}`));
-        console.log(chalk.yellow(`Tip: Run ${chalk.cyan('ag-unified sync --all')} first.`));
+        console.log(chalk.yellow(`Tip: Run ${chalk.cyan('ag-jz sync --all')} first.`));
         process.exit(1);
     }
 
@@ -332,11 +332,11 @@ const linkCommand = async (options) => {
 const statusCommand = (options) => {
     const globalDir = getGlobalAgentDir();
 
-    console.log(chalk.blueBright('\nAG-Unified Status\n'));
+    console.log(chalk.blueBright('\nAG-JZ Status\n'));
 
     if (!fs.existsSync(globalDir)) {
         console.log(chalk.red('[X] Global directory not initialized'));
-        console.log(chalk.yellow(`Run ${chalk.cyan('ag-unified sync --all')} to get started.\n`));
+        console.log(chalk.yellow(`Run ${chalk.cyan('ag-jz sync --all')} to get started.\n`));
         return;
     }
 
@@ -367,7 +367,7 @@ const statusCommand = (options) => {
 const program = new Command();
 
 program
-    .name('ag-unified')
+    .name('ag-jz')
     .description('CLI tool to unify multiple Antigravity kits into a global directory')
     .version(pkg.version, '-v, --version', 'Display version number');
 
