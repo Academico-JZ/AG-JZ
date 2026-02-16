@@ -27,7 +27,7 @@ const REGISTRY_FILE = '.sync-registry.json';
 const DEFAULT_KITS = [
     'github:anthonylee991/gemini-superpowers-antigravity',
     'github:vudovn/antigravity-kit',
-    // Add more default repos here
+    'github:sickn33/antigravity-awesome-skills',
 ];
 
 // ============================================================================
@@ -125,10 +125,21 @@ const saveRegistry = (globalDir, registry) => {
  * @param {string} repoSource - Repository source identifier
  */
 const mergeAgentFolder = (tempDir, globalDir, repoSource) => {
-    const sourceAgent = path.join(tempDir, AGENT_FOLDER);
+    let sourceAgent = path.join(tempDir, AGENT_FOLDER);
+    let isRootSync = false;
 
+    // Fallback: If .agent folder doesn't exist, use root folder but filter content
     if (!fs.existsSync(sourceAgent)) {
-        throw new Error(`Could not find ${AGENT_FOLDER} folder in source repository!`);
+        // Check if common agent folders exist in root
+        const commonFolders = ['skills', 'workflows', 'rules', 'scripts', 'docs', 'assets'];
+        const hasCommonFolders = commonFolders.some(folder => fs.existsSync(path.join(tempDir, folder)));
+
+        if (hasCommonFolders) {
+            sourceAgent = tempDir; // Use root as source
+            isRootSync = true;
+        } else {
+            throw new Error(`Could not find ${AGENT_FOLDER} folder or common agent folders (skills, workflows, scripts) in source repository!`);
+        }
     }
 
     // Ensure global directory exists
@@ -155,6 +166,12 @@ const mergeAgentFolder = (tempDir, globalDir, repoSource) => {
         const entries = fs.readdirSync(src, { withFileTypes: true });
 
         for (const entry of entries) {
+            // Filter excluded files/folders when syncing from root
+            if (isRootSync && relativePath === '') {
+                const exclude = ['.git', '.github', 'node_modules', 'README.md', 'LICENSE', 'package.json', 'package-lock.json', '.gitignore'];
+                if (exclude.includes(entry.name)) continue;
+            }
+
             const srcPath = path.join(src, entry.name);
             const destPath = path.join(dest, entry.name);
             const relPath = path.join(relativePath, entry.name);
@@ -166,16 +183,21 @@ const mergeAgentFolder = (tempDir, globalDir, repoSource) => {
                 copyRecursive(srcPath, destPath, relPath);
             } else {
                 // Copy file (overwrite if exists)
-                fs.copyFileSync(srcPath, destPath);
-                
-                // Track in registry
-                registry.files[relPath] = {
-                    kit: kitId,
-                    updatedAt: new Date().toISOString()
-                };
-                
-                if (!registry.kits[kitId].files.includes(relPath)) {
-                    registry.kits[kitId].files.push(relPath);
+                try {
+                    fs.copyFileSync(srcPath, destPath);
+                    
+                    // Track in registry
+                    registry.files[relPath] = {
+                        kit: kitId,
+                        updatedAt: new Date().toISOString()
+                    };
+                    
+                    if (!registry.kits[kitId].files.includes(relPath)) {
+                        registry.kits[kitId].files.push(relPath);
+                    }
+                } catch (err) {
+                    // Ignore errors for locked files or permissions, but log?
+                    // console.error(`Warning: Could not copy ${srcPath}: ${err.message}`);
                 }
             }
         }
